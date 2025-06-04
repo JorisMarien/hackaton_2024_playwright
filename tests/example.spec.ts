@@ -19,13 +19,20 @@ test('Hackaton', async ({ page }) => {
   await page.locator('button.ski-button').click();
   await page.locator('#continue').click();
   await page.locator('#numpad').click();
+  await page.waitForTimeout(500);
   let codeArray: string[] = code.split('');
   console.log(codeArray);
   await expect(page.locator('#enter')).toBeVisible();
   for await (const codeNumber of codeArray) {
-   //await page.locator('id='+codeNumber).click();
-   await page.getByRole('button', {name: codeNumber}).click();
+   await page.locator('id='+codeNumber).click();
+   await page.waitForTimeout(500);
+   //await page.getByRole('button', {name: codeNumber}).click();
   }
   await page.locator('#enter').click();
+  await page.waitForTimeout(2000);
   await page.keyboard.press('ArrowUp');
+  await page.locator('#continue').click();
+  await page.waitForTimeout(3000);
+  await page.getByRole('button', {name: 'yes'}).click({button: 'right'});
+  await page.getByRole('button', {class: 'ng-star-inserted'}).click({button: 'right'});
 });
