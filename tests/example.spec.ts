@@ -31,8 +31,24 @@ test('Hackaton', async ({ page }) => {
   await page.locator('#enter').click();
   await page.waitForTimeout(2000);
   await page.keyboard.press('ArrowUp');
+  await page.waitForTimeout(7000)
   await page.locator('#continue').click();
-  await page.waitForTimeout(3000);
-  await page.getByRole('button', {name: 'yes'}).click({button: 'right'});
-  await page.getByRole('button', {class: 'ng-star-inserted'}).click({button: 'right'});
+  await page.waitForTimeout(5000);
+  await page.getByRole('button', {name: 'Yes'}).click({ position: { x: 59, y: 10 } });
+  await page.waitForTimeout(1000);
+  await page.getByRole('button', {name: ' chevron_right '}).click({ position: { x: 61, y: 10 } });
+  await page.getByRole('button', {name: ' chevron_right '}).click({ position: { x: 61, y: 10 } });
+  await page.getByRole('button', {name: ' chevron_right '}).click({ position: { x: 61, y: 10 } });
+  await page.waitForTimeout(3000)
+  await page.locator('#continue').click();
+  await page.getByRole('button', {name: 'Continue >>'}).click();
+  await page.waitForTimeout(3000)
+  await page.locator('#continue').click();
+  let wantedReading: string = await page.locator('id=wanted-reading').innerText();
+  let currentReading: String = await page.locator('id=current-reading').innerText();
+  let wantedreadingArray: string[] = wantedReading.split('');
+  let currentReadingArray: string[] = currentReading.split('');
+  for await (const wantedRead of wantedreadingArray){
+
+  }
 });
