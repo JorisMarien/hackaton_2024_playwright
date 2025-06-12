@@ -1,17 +1,32 @@
 import { test, expect } from '@playwright/test';
+import { HackatonPage } from '../pages/hackaton.page';
 
-test('Hackaton', async ({ page }) => {
-  await page.goto("");
-  await expect(page.locator('#name')).toBeVisible();
-  await page.locator('#name').fill('Terminator');
-  await page.locator('#age').fill('20');
-  await page.getByLabel('Species:').selectOption({label: 'Flood'});
-  await page.locator('#planet').fill('Earth');
-  await page.keyboard.press('Enter');
-  await page.locator('#continue').click();
-  await expect(page.locator('.victim>img')).toBeVisible();
-  await page.locator('.victim>img').click({position: {x:200, y:195}});
-  await expect(page.locator('.murder')).toBeVisible();
+test('Transmission and information', async ({page}) => {
+  const hackatonPage = new HackatonPage(page);
+  await hackatonPage.actions.goto('/');
+  await hackatonPage.actions.waitForAnimation(7000);
+  await hackatonPage.validators.waitForTransmissionButtonToBeVisible();
+  await hackatonPage.actions.clickTransmissionButton();
+  await hackatonPage.actions.waitForAnimation(15000);
+  await hackatonPage.actions.clickSomewhere();
+  await hackatonPage.actions.waitForAnimation(15000);
+  await hackatonPage.validators.waitForNameInputVisible();
+  await hackatonPage.actions.fillInName('Terminator')
+  await hackatonPage.actions.fillInAge('20');
+  await hackatonPage.actions.selectDropdownAction();
+  await hackatonPage.actions.fillInPlanet('Earth');
+  await hackatonPage.actions.pressKey('Enter');
+});
+
+test('Collect-code', async ({ page }) => {
+  const hackatonPage = new HackatonPage(page);
+  await hackatonPage.actions.goto('/collect-code');
+  await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}')
+
+  await hackatonPage.validators.waitForYellowNote();
+  await hackatonPage.actions.clickYellowNote();
+  await hackatonPage.validators.waitForCode();
+
   let code: string = await page.locator('.murder').innerText();
   console.log(code);
   await page.locator('.murder').click();
@@ -41,6 +56,7 @@ test('Hackaton', async ({ page }) => {
   await page.getByRole('button', {name: ' chevron_right '}).click({ position: { x: 61, y: 10 } });
   await page.waitForTimeout(3000)
   await page.locator('#continue').click();
+  await page.locator('.floating-cube').click({ delay: 8000}); 
   await page.getByRole('button', {name: 'Continue >>'}).click();
   await page.waitForTimeout(3000)
   await page.locator('#continue').click();
