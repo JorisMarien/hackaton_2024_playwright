@@ -13,6 +13,13 @@ export class HackatonPage {
     readonly divElement: Locator;
     readonly yellowNote: Locator;
     readonly code: Locator;
+    readonly skiButton: Locator;
+    readonly numpad: Locator;
+    readonly numpadEnter: Locator;
+    readonly yesButton: Locator;
+    readonly chevronRightButton: Locator;
+    readonly floatingCube: Locator;
+    readonly pressToScanButton: Locator;
     
     readonly actions: HackatonActions;
     readonly validators: HackatonValidators
@@ -30,5 +37,12 @@ export class HackatonPage {
         this.divElement = page.locator('div').nth(1);
         this.yellowNote = page.locator('.victim>img');
         this.code = page.locator('.murder');
+        this.skiButton = page.locator('button.ski-button');
+        this.numpad = page.locator('#numpad');
+        this.numpad = page.locator('#enter');
+        this.yesButton = page.getByRole('button', {name: 'Yes'});
+        this.chevronRightButton = page.getByRole('button', {name: ' chevron_right '});
+        this.floatingCube = page.locator('.floating-cube');
+        this.pressToScanButton = page.getByRole('button', {name: ' Press to scan '});
     }    
 }

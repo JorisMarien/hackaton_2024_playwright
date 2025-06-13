@@ -51,5 +51,35 @@ export class HackatonActions {
         await this.hackatonPage.yellowNote.click({position: {x:200, y:195}});
     }
 
+    async clickOnTheCodeNote() {
+        await this.hackatonPage.code.click();
+    }
+
+    async clickOnSkiButton() {
+        await this.hackatonPage.skiButton.click();
+    }
+
+    async clickOnNumpad() {
+        await this.hackatonPage.numpad.click();
+    }
+
+    async clickOnNumpadEnter() {
+        await this.hackatonPage.numpadEnter.click();
+    }
     
+    async clickOnYesButton() {
+        await this.hackatonPage.yesButton.click({ position: { x: 59, y: 10 } });
+    }
+
+    async clickOnChivronRightButton(){
+        await this.hackatonPage.chevronRightButton.click({ position: { x: 61, y: 10 } });
+    }
+
+    async clickOnFloatingCube() {
+        await this.hackatonPage.floatingCube.click();
+    }
+
+    async clickOnPressToScanButton() {
+        await this.hackatonPage.pressToScanButton.click({ delay: 8000});
+    }
 }

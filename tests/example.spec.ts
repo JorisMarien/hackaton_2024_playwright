@@ -21,7 +21,7 @@ test('Transmission and information', async ({page}) => {
 test('Collect-code', async ({ page }) => {
   const hackatonPage = new HackatonPage(page);
   await hackatonPage.actions.goto('/collect-code');
-  await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}')
+  await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
 
   await hackatonPage.validators.waitForYellowNote();
   await hackatonPage.actions.clickYellowNote();
@@ -29,38 +29,74 @@ test('Collect-code', async ({ page }) => {
 
   let code: string = await page.locator('.murder').innerText();
   console.log(code);
-  await page.locator('.murder').click();
-  await expect(page.locator('button.ski-button')).toBeVisible();
-  await page.locator('button.ski-button').click();
-  await page.locator('#continue').click();
-  await page.locator('#numpad').click();
-  await page.waitForTimeout(500);
+  await hackatonPage.actions.clickOnTheCodeNote();
+  await hackatonPage.validators.waitForSkiButton();
+  await hackatonPage.actions.clickOnSkiButton();
+  await hackatonPage.actions.clickContinueButton();
+  await hackatonPage.actions.clickOnNumpad();
+  await hackatonPage.actions.waitForAnimation(500);
+
   let codeArray: string[] = code.split('');
   console.log(codeArray);
-  await expect(page.locator('#enter')).toBeVisible();
+
+  await hackatonPage.validators.waitForNumpadToBeOpen();
+
   for await (const codeNumber of codeArray) {
    await page.locator('id='+codeNumber).click();
-   await page.waitForTimeout(500);
+   await hackatonPage.actions.waitForAnimation(500);
    //await page.getByRole('button', {name: codeNumber}).click();
   }
-  await page.locator('#enter').click();
-  await page.waitForTimeout(2000);
-  await page.keyboard.press('ArrowUp');
-  await page.waitForTimeout(7000)
-  await page.locator('#continue').click();
-  await page.waitForTimeout(5000);
-  await page.getByRole('button', {name: 'Yes'}).click({ position: { x: 59, y: 10 } });
-  await page.waitForTimeout(1000);
-  await page.getByRole('button', {name: ' chevron_right '}).click({ position: { x: 61, y: 10 } });
-  await page.getByRole('button', {name: ' chevron_right '}).click({ position: { x: 61, y: 10 } });
-  await page.getByRole('button', {name: ' chevron_right '}).click({ position: { x: 61, y: 10 } });
-  await page.waitForTimeout(3000)
-  await page.locator('#continue').click();
-  await page.locator('.floating-cube').click({ delay: 8000}); 
-  await page.getByRole('button', {name: 'Continue >>'}).click();
-  await page.waitForTimeout(3000)
-  await page.locator('#continue').click();
+
+  await hackatonPage.actions.clickOnNumpadEnter();
+  await hackatonPage.actions.waitForAnimation(2000);
+  await hackatonPage.actions.pressKey('ArrowUp');
+  await hackatonPage.actions.waitForAnimation(7000);
+  await hackatonPage.actions.clickContinueButton();
+
+});
+
+test('Lady', async ({page}) => {
+  const hackatonPage = new HackatonPage(page);
+  await hackatonPage.actions.goto('/the-lady');
+  await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
+  await localStorage.setItem('code', '3333');
+
+  await hackatonPage.actions.clickOnYesButton();
+  await hackatonPage.actions.waitForAnimation(1000);
+  await hackatonPage.actions.clickOnChivronRightButton();
+  await hackatonPage.actions.waitForAnimation(3000);
+  await hackatonPage.actions.clickContinueButton();
+});
+
+test('Scanner', async ({page}) => {
+  const hackatonPage = new HackatonPage(page);
+  await hackatonPage.actions.goto('/scanner');
+  await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
+  await localStorage.setItem('code', '3333');
+
+  await hackatonPage.actions.clickOnFloatingCube();
+  await hackatonPage.actions.clickOnPressToScanButton();
+  await hackatonPage.actions.waitForAnimation(3000);
+  await hackatonPage.actions.clickContinueButton();
+
+
   let wantedReading: string = await page.locator('id=wanted-reading').innerText();
+  let currentReading: String = await page.locator('id=current-reading').innerText();
+  let wantedreadingArray: string[] = wantedReading.split('');
+  let currentReadingArray: string[] = currentReading.split('');
+  for await (const wantedRead of wantedreadingArray){
+
+  }
+});
+
+test('Experiment', async ({page}) => {
+  const hackatonPage = new HackatonPage(page);
+  await hackatonPage.actions.goto('/experiment');
+  await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
+  await localStorage.setItem('code', '3333');
+  await localStorage.setItem('cure', '9999');
+
+   let wantedReading: string = await page.locator('id=wanted-reading').innerText();
   let currentReading: String = await page.locator('id=current-reading').innerText();
   let wantedreadingArray: string[] = wantedReading.split('');
   let currentReadingArray: string[] = currentReading.split('');

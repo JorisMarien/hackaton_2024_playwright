@@ -24,4 +24,12 @@ export class HackatonValidators {
     async waitForCode() {
         await expect(this.hackatonPage.code).toBeVisible();
     }
+
+    async waitForSkiButton() {
+        await expect(this.hackatonPage.skiButton).toBeVisible();
+    }
+
+    async waitForNumpadToBeOpen() {
+        await expect(this.hackatonPage.numpadEnter).toBeVisible();
+    }
 }
