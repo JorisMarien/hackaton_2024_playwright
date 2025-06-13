@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { HackatonPage } from '../pages/hackaton.page';
 
 test('Transmission and information', async ({page}) => {
@@ -20,8 +20,9 @@ test('Transmission and information', async ({page}) => {
 
 test('Collect-code', async ({ page }) => {
   const hackatonPage = new HackatonPage(page);
+  await hackatonPage.actions.goto('/');
+  await page.evaluate(() => localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}'));
   await hackatonPage.actions.goto('/collect-code');
-  await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
 
   await hackatonPage.validators.waitForYellowNote();
   await hackatonPage.actions.clickYellowNote();
@@ -57,9 +58,10 @@ test('Collect-code', async ({ page }) => {
 
 test('Lady', async ({page}) => {
   const hackatonPage = new HackatonPage(page);
-  await hackatonPage.actions.goto('/the-lady');
+  await hackatonPage.actions.goto('/');
   await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
   await localStorage.setItem('code', '3333');
+  await hackatonPage.actions.goto('/the-lady');
 
   await hackatonPage.actions.clickOnYesButton();
   await hackatonPage.actions.waitForAnimation(1000);
@@ -70,9 +72,10 @@ test('Lady', async ({page}) => {
 
 test('Scanner', async ({page}) => {
   const hackatonPage = new HackatonPage(page);
-  await hackatonPage.actions.goto('/scanner');
+  await hackatonPage.actions.goto('/');
   await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
   await localStorage.setItem('code', '3333');
+  await hackatonPage.actions.goto('/scanner');
 
   await hackatonPage.actions.clickOnFloatingCube();
   await hackatonPage.actions.clickOnPressToScanButton();
@@ -91,10 +94,11 @@ test('Scanner', async ({page}) => {
 
 test('Experiment', async ({page}) => {
   const hackatonPage = new HackatonPage(page);
-  await hackatonPage.actions.goto('/experiment');
+  await hackatonPage.actions.goto('/');
   await localStorage.setItem('player', '{name: "Terminator", age: 20, species: "flood", planet: "earth"}');
   await localStorage.setItem('code', '3333');
   await localStorage.setItem('cure', '9999');
+await hackatonPage.actions.goto('/experiment');
 
    let wantedReading: string = await page.locator('id=wanted-reading').innerText();
   let currentReading: String = await page.locator('id=current-reading').innerText();
